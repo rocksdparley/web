@@ -1,0 +1,552 @@
+/* General Styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+/* Folder List Styles */
+.folder-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.folder-card {
+    background: #2c2c2c;
+    border: 1px solid #333;
+    border-radius: 8px;
+    width: 150px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.folder-card:hover {
+    width: 250px;
+    height: 350px;
+}
+
+.folder-card .title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(44, 44, 44, 0.3)); /* Softer blend */
+    color: #fff;
+    padding: 5px 0;
+    font-size: 14px;
+    text-align: center;
+    pointer-events: none;
+    transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+.folder-card:hover .title {
+    opacity: 0; /* Hide title and gradient on hover */
+}
+
+.folder-card[data-folder="onePiece"] {
+    background: url('./pictures/onepiece.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.folder-card[data-folder="onePiece"] iframe {
+    display: none;
+    width: 100%; /* Ensure it fits the card width */
+    height: 60%; /* Adjust height to fit perfectly */
+    margin: 0; /* Remove margins for perfect alignment */
+    border: none;
+    border-radius: 0; /* Remove border radius for seamless fit */
+}
+
+.folder-card[data-folder="onePiece"]:hover iframe {
+    display: block;
+}
+
+.folder-card[data-folder="onePiece"] .hover-episode-list {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Ensure it fits the card width */
+    background: rgba(0, 0, 0, 0.8);
+    padding: 0; /* Remove padding for perfect alignment */
+    box-sizing: border-box;
+    height: 40%; /* Adjust height to fit perfectly */
+    overflow-y: auto;
+    margin: 0; /* Remove margins for seamless fit */
+}
+
+.folder-card[data-folder="onePiece"]:hover .hover-episode-list {
+    display: flex;
+}
+
+.hover-episode-list button {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.3s ease;
+}
+
+.hover-episode-list button:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.hover-episode-list button.play-button {
+    font-weight: bold;
+    text-align: center;
+    background-color: #ffd700; /* Yellow background */
+    color: #000; /* Black text */
+    border: 1px solid #e6c200; /* Slightly darker yellow border */
+}
+
+.hover-episode-list button.play-button:hover {
+    background-color: #e6c200; /* Darker yellow on hover */
+}
+
+.hover-episode-list .separator {
+    width: 100%;
+    height: 1px;
+    background-color: #444;
+    margin: 10px 0;
+}
+
+/* Popup Styles */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%; /* Reduce the width */
+    max-width: 800px; /* Limit the maximum width */
+    height: 80%; /* Set a fixed height */
+    max-height: 600px; /* Limit the maximum height */
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.popup .video-container {
+    width: 70%; /* Take 70% of the popup width */
+    height: 100%; /* Full height of the popup */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Ensure child elements like buttons are positioned relative to this */
+}
+
+.popup .episode-list-container {
+    width: 30%; /* Take 30% of the popup width */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%; /* Full height of the popup */
+    box-sizing: border-box; /* Include padding and borders in the height */
+}
+
+.popup .search-bar {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+.popup .episode-list {
+    flex: 1; /* Allow the episode list to grow and take up available space */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 100%; /* Ensure it doesn't overflow */
+    overflow-y: auto;
+}
+
+.popup .episode-list button {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.3s ease;
+}
+
+.popup .episode-list button:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.popup .episode-list button.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.popup .episode-list .trailer-button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #e6c200;
+    border-radius: 6px;
+    background-color: #ffd700;
+    color: #000;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+.popup .episode-list .trailer-button:hover {
+    background-color: #e6c200;
+}
+
+.popup .episode-list .trailer-button.selected {
+    background-color: #ffd700;
+    color: #000;
+    border: 1px solid #e6c200;
+}
+
+.popup .separator {
+    width: 100%;
+    height: 1px;
+    background-color: #444;
+    margin: 10px 0;
+}
+
+.custom-video-wrapper {
+    width: 100%; /* Ensure the video fits the container */
+    height: 100%; /* Ensure the video fits the container */
+    position: relative; /* Position buttons relative to the video */
+    overflow: hidden; /* Prevent overflow of child elements */
+}
+
+.custom-controls {
+    position: absolute;
+    bottom: 0px; /* Align the controls to the lowest position */
+    left: 0;
+    width: 100%; /* Ensure the controls span the full width */
+    display: flex;
+    flex-direction: column; /* Stack buttons and progress bar vertically */
+    align-items: center;
+    gap: 5px; /* Add spacing between elements */
+    padding: 10px; /* Add padding to prevent elements from touching the edges */
+    z-index: 2;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+.custom-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align items vertically */
+    width: 100%; /* Ensure buttons span the full width */
+}
+
+.custom-play-pause-button,
+.custom-fullscreen-button {
+    padding: 5px 10px; /* Adjust padding for consistency */
+    font-size: 16px; /* Icon size */
+    background-color: rgba(58, 58, 58, 0.8); /* Softer background color */
+    color: #e0e0e0; /* Match other button text color */
+    border: 1px solid #333; /* Match other button border */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.custom-fullscreen-button:hover,
+.custom-play-pause-button:hover {
+    background-color: #007bff; /* Match episode button hover background */
+    color: #fff; /* Match episode button hover text color */
+}
+
+.custom-time-display {
+    margin-right: 10px; /* Add spacing between time and play/pause button */
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 3; /* Ensure it appears above other elements */
+}
+
+.custom-progress-bar {
+    width: 100%; /* Ensure the progress bar spans the full width */
+    height: 5px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(to right, #007bff 0%, #444 0%); /* Dynamic gradient */
+    cursor: pointer;
+    border-radius: 2px;
+    margin: 0; /* Remove extra margins */
+    outline: none; /* Remove focus outline */
+    position: relative; /* Ensure it is not affected by sibling elements */
+    z-index: 1; /* Ensure it appears above other controls */
+}
+
+.custom-progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.custom-progress-bar::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.custom-progress-bar::-ms-thumb {
+    width: 10px;
+    height: 10px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.custom-progress-tooltip {
+    position: absolute;
+    bottom: 40px; /* Position above the progress bar */
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    transform: translate(-50%, -100%); /* Center horizontally and position above */
+    pointer-events: none; /* Prevent interaction */
+    z-index: 3; /* Ensure it appears above other elements */
+}
+
+.custom-progress-tooltip.hidden {
+    display: none; /* Hide the tooltip initially */
+}
+
+.custom-skip-intro-button,
+.custom-next-episode-button {
+    opacity: 1; /* Always visible */
+    transition: background 0.3s ease; /* Smooth background transition */
+}
+
+.custom-skip-intro-button {
+    position: absolute; /* Position it absolutely within the video container */
+    top: -30px; /* Keep it above the video */
+    right: 10px; /* Align it to the right */
+    width: 150px; /* Smaller horizontal size */
+    height: 30px; /* Bigger vertical size */
+    background: linear-gradient(to right, rgba(255, 69, 0, 0.8) 0%, #444 0%); /* Progress bar effect */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 30px; /* Center text vertically */
+    font-size: 14px;
+    z-index: 3; /* Ensure it appears above other elements */
+    opacity: 1; /* Always visible */
+    transition: background 0.3s ease;
+    animation: none; /* Default state */
+}
+
+.custom-next-episode-button {
+    position: absolute;
+    bottom: 50px; /* Position it above the controls */
+    right: 10px;
+    width: 150px; /* Smaller horizontal size */
+    height: 30px; /* Bigger vertical size */
+    background: linear-gradient(to right, #007bff 0%, #444 0%); /* Progress bar effect */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 30px; /* Center text vertically */
+    font-size: 14px;
+    z-index: 3; /* Ensure it appears above other elements */
+    animation: none; /* Default state */
+}
+
+.custom-time-display {
+    margin-right: auto; /* Move it to the left of the progress bar */
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 3; /* Ensure it appears above other elements */
+}
+
+.custom-skip-intro-button.hidden {
+    display: none; /* Hide the button initially */
+}
+
+.custom-skip-intro-button:hover {
+    background: linear-gradient(to right, rgba(255, 69, 0, 1) 100%, #444 0%); /* Darker orange on hover */
+}
+
+.custom-next-episode-button.hidden {
+    display: none; /* Hide the button initially */
+}
+
+.custom-next-episode-button:hover {
+    background: linear-gradient(to right, #0056b3 100%, #444 0%); /* Darker blue on hover */
+}
+
+/* Progress animation for skip intro and next episode buttons */
+@keyframes progress-animation {
+    from {
+        background: linear-gradient(to right, rgba(255, 69, 0, 0.8) 0%, #444 0%);
+    }
+    to {
+        background: linear-gradient(to right, rgba(255, 69, 0, 0.8) 100%, #444 0%);
+    }
+}
+
+.custom-skip-intro-button,
+.custom-next-episode-button {
+    animation: none; /* Default state */
+    transition: background 0.3s ease; /* Smooth background transition */
+}
+
+.custom-skip-intro-button.progress-animation,
+.custom-next-episode-button.progress-animation {
+    animation: progress-animation 3s linear forwards; /* Apply animation */
+}
+
+.custom-skip-intro-button {
+    position: absolute;
+    top: -30px;
+    right: 10px;
+    width: 150px;
+    height: 30px;
+    background: rgba(255, 69, 0, 0.8); /* Default background */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    z-index: 3;
+}
+
+/* Skip intro animation */
+@keyframes skip-intro-animation {
+    from {
+        background: linear-gradient(to right, rgba(255, 69, 0, 0.8) 0%, #444 0%);
+    }
+    to {
+        background: linear-gradient(to right, rgba(255, 69, 0, 0.8) 100%, #444 0%);
+    }
+}
+
+.custom-skip-intro-button {
+    position: absolute;
+    top: -30px;
+    right: 10px;
+    width: 150px;
+    height: 30px;
+    background: rgba(255, 69, 0, 0.8); /* Default background */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    z-index: 3;
+    animation: none; /* Default state */
+    transition: background 0.3s ease; /* Smooth background transition */
+}
+
+.custom-skip-intro-button.progress-animation {
+    animation: skip-intro-animation 3.5s linear forwards; /* Apply animation */
+}
+
+.custom-skip-intro-button.hidden {
+    display: none; /* Hide the button initially */
+}
+
+/* Next episode animation */
+@keyframes next-episode-animation {
+    from {
+        background: linear-gradient(to right, #007bff 0%, #444 0%);
+    }
+    to {
+        background: linear-gradient(to right, #007bff 100%, #444 0%);
+    }
+}
+
+.custom-next-episode-button {
+    position: absolute;
+    bottom: 50px;
+    right: 10px;
+    width: 150px;
+    height: 30px;
+    background: #007bff; /* Default background */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    z-index: 3;
+    animation: none; /* Default state */
+    transition: background 0.3s ease; /* Smooth background transition */
+}
+
+.custom-next-episode-button.progress-animation {
+    animation: next-episode-animation 3s linear forwards; /* Apply animation */
+}
+
+.custom-skip-intro-button.hidden,
+.custom-next-episode-button.hidden {
+    display: none; /* Hide the button initially */
+}
